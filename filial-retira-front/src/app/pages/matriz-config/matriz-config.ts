@@ -12,9 +12,11 @@ import { CommonModule } from '@angular/common'; // Permite usar *ngIf e *ngFor n
 })
 export class MatrizConfigComponent implements OnInit {
   
-  configMatriz = {
+  
+  configMatriz: any = {
+    id: null, 
     unidade: 'MATRIZ',
-    isMatriz: true,
+    matriz: true,
     appKey: '',
     appSecret: '',
     etapaEscritaPedido: '',
@@ -47,7 +49,7 @@ export class MatrizConfigComponent implements OnInit {
     this.integracaoService.salvarConfiguracao(this.configMatriz).subscribe({
       next: (resposta) => {
         this.mensagemSucesso = resposta;
-        setTimeout(() => this.mensagemSucesso = '', 5000); // Some depois de 5 segundos
+        setTimeout(() => this.mensagemSucesso = '', 5000);
       },
       error: (err) => alert('Erro ao salvar as configurações!')
     });
