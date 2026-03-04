@@ -30,4 +30,9 @@ export class IntegracaoService {
   forcarCargaEstoque(): Observable<any> {
     return this.http.post(`${this.apiUrl}/carga-completa`, {}, { responseType: 'text' });
   }
+
+  // Estoque Rápido (Incremental)
+  forcarSincronizacaoIncremental(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/estoque-incremental`, {}, { responseType: 'text' });
+  }
 }
