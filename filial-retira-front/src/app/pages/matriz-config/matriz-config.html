@@ -1,1 +1,61 @@
-<p>matriz-config works!</p>
+<div class="container mt-2 animate__animated animate__fadeIn">
+  <div class="card shadow-sm border-0 rounded-4">
+    <div class="card-header bg-primary text-white rounded-top-4 p-3">
+      <h4 class="mb-0"><i class="bi bi-building"></i> Configuração da Matriz (Recebedora)</h4>
+      <small class="text-white-50">Configure as chaves da Omie que vai gerar as vendas B2B e o faturamento.</small>
+    </div>
+    
+    <div class="card-body p-4">
+      
+      <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="mensagemSucesso">
+        <strong>✅ Sucesso!</strong> {{ mensagemSucesso }}
+      </div>
+
+      <form (ngSubmit)="salvar()">
+        
+        <h5 class="text-primary border-bottom pb-2 mb-4">🔑 Credenciais de API</h5>
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label class="form-label fw-bold text-secondary">App Key</label>
+            <input type="text" class="form-control form-control-lg bg-light" name="appKey" [(ngModel)]="configMatriz.appKey" required placeholder="Ex: 1234567890">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold text-secondary">App Secret</label>
+            <input type="password" class="form-control form-control-lg bg-light" name="appSecret" [(ngModel)]="configMatriz.appSecret" required placeholder="Sua chave secreta">
+          </div>
+        </div>
+
+        <h5 class="text-primary border-bottom pb-2 mb-4 mt-5">⚙️ Parâmetros de Faturamento (B2B)</h5>
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label class="form-label fw-bold text-secondary">Etapa do Kanban (Criação)</label>
+            <input type="text" class="form-control form-control-lg bg-light" name="etapaEscritaPedido" [(ngModel)]="configMatriz.etapaEscritaPedido" required placeholder="Ex: 10">
+            <div class="form-text">Código da coluna na Omie da Matriz onde o pedido espelho será gerado.</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold text-secondary">Código da Parcela Padrão</label>
+            <input type="text" class="form-control form-control-lg bg-light" name="codigoParcelaPadrao" [(ngModel)]="configMatriz.codigoParcelaPadrao" required placeholder="Ex: 999">
+          </div>
+        </div>
+
+        <div class="row mb-5">
+          <div class="col-md-6">
+            <label class="form-label fw-bold text-secondary">Categoria de Transferência</label>
+            <input type="text" class="form-control form-control-lg bg-light" name="categoriaTransferenciaPadrao" [(ngModel)]="configMatriz.categoriaTransferenciaPadrao" required placeholder="Ex: 1.01.03">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold text-secondary">Conta Corrente (ID Omie)</label>
+            <input type="number" class="form-control form-control-lg bg-light" name="contaCorrentePadrao" [(ngModel)]="configMatriz.contaCorrentePadrao" required placeholder="Ex: 11850365">
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end border-top pt-4">
+          <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">
+            💾 Salvar Configurações
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
