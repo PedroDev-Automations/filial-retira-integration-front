@@ -1,30 +1,31 @@
-<div class="container mt-2 animate__animated animate__fadeIn">
-  <h3 class="text-secondary mb-4">📊 Visão Geral do Sistema</h3>
+<div class="container animate__animated animate__fadeIn">
+  
+  <h4 class="section-title mt-0">📊 Visão Geral do Sistema</h4>
 
-  <div class="alert alert-info shadow-sm" *ngIf="mensagem">
+  <div class="alert alert-info shadow-sm py-2 mb-3" *ngIf="mensagem">
     {{ mensagem }}
   </div>
 
-  <div class="row mb-4">
+  <div class="row mb-3">
     <div class="col-md-4">
       <div class="card shadow-sm border-0 border-start border-primary border-5 rounded-3">
-        <div class="card-body">
-          <h6 class="text-muted text-uppercase mb-2">Filiais Ativas</h6>
-          <h2 class="mb-0 text-primary fw-bold">{{ totalFiliais }}</h2>
+        <div class="card-body py-3">
+          <h6 class="text-muted text-uppercase mb-1" style="font-size: 0.75rem;">Filiais Ativas</h6>
+          <h4 class="mb-0 text-primary fw-bold">{{ totalFiliais }}</h4>
         </div>
       </div>
     </div>
   </div>
 
-  <h4 class="text-secondary mb-3 mt-5">⚡ Ações Manuais do Robô</h4>
-  <div class="row">
-    
+  <h4 class="section-title">⚡ Ações Manuais do Robô</h4>
+  
+  <div class="row mb-3">
     <div class="col-md-4 mb-3">
-      <div class="card shadow-sm border-0 rounded-4 h-100">
+      <div class="card action-card">
         <div class="card-body text-center p-4">
-          <i class="bi bi-cart-check text-primary mb-3" style="font-size: 2.5rem;"></i>
-          <h5 class="mt-2">Buscar Pedidos</h5>
-          <p class="text-muted small">Força o robô a procurar novos pedidos agora.</p>
+          <i class="bi bi-cart-check text-primary action-icon"></i>
+          <h5>Buscar Pedidos</h5>
+          <p>Força o robô a procurar novos pedidos agora.</p>
           <button class="btn btn-primary w-100 mt-auto shadow-sm" (click)="varrerPedidos()" [disabled]="carregandoPedidos">
             <span *ngIf="!carregandoPedidos">🔍 Iniciar Busca</span>
             <span *ngIf="carregandoPedidos" class="spinner-border spinner-border-sm"></span>
@@ -34,11 +35,11 @@
     </div>
 
     <div class="col-md-4 mb-3">
-      <div class="card shadow-sm border-0 rounded-4 h-100">
+      <div class="card action-card">
         <div class="card-body text-center p-4">
-          <i class="bi bi-lightning-charge text-warning mb-3" style="font-size: 2.5rem;"></i>
-          <h5 class="mt-2">Estoque Rápido</h5>
-          <p class="text-muted small">Atualiza apenas os produtos alterados recentemente.</p>
+          <i class="bi bi-lightning-charge text-warning action-icon"></i>
+          <h5>Estoque Rápido</h5>
+          <p>Atualiza apenas os produtos alterados recentemente.</p>
           <button class="btn btn-warning text-dark fw-bold w-100 mt-auto shadow-sm" (click)="sincronizarEstoqueIncremental()" [disabled]="carregandoEstoqueIncremental">
             <span *ngIf="!carregandoEstoqueIncremental">⚡ Sincronizar Rápido</span>
             <span *ngIf="carregandoEstoqueIncremental" class="spinner-border spinner-border-sm"></span>
@@ -48,11 +49,11 @@
     </div>
 
     <div class="col-md-4 mb-3">
-      <div class="card shadow-sm border-0 rounded-4 h-100">
+      <div class="card action-card">
         <div class="card-body text-center p-4">
-          <i class="bi bi-boxes text-success mb-3" style="font-size: 2.5rem;"></i>
-          <h5 class="mt-2">Carga Completa</h5>
-          <p class="text-muted small">Varredura profunda de todo o catálogo (Demorado).</p>
+          <i class="bi bi-boxes text-success action-icon"></i>
+          <h5>Carga Completa</h5>
+          <p>Varredura profunda de todo o catálogo (Demorado).</p>
           <button class="btn btn-success w-100 mt-auto shadow-sm" (click)="sincronizarEstoque()" [disabled]="carregandoEstoque">
             <span *ngIf="!carregandoEstoque">📦 Iniciar Carga Total</span>
             <span *ngIf="carregandoEstoque" class="spinner-border spinner-border-sm"></span>
@@ -60,6 +61,122 @@
         </div>
       </div>
     </div>
+  </div>
 
+  <h4 class="section-title">📋 Histórico de Execuções</h4>
+  
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <div class="card history-card h-100">
+        <div class="card-header history-card-header border-primary">
+          <h6 class="mb-0 text-primary fw-bold"><i class="bi bi-cart-check me-2"></i>Busca de Pedidos</h6>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-wrapper">
+            <table class="table table-hover table-sm align-middle text-center history-table">
+              <thead class="table-light sticky-top">
+                <tr><th>Hora</th><th>Ok</th><th>Erro</th></tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let hist of historicoPedidos">
+                  <td class="text-muted">{{ hist.dataHora | date:'dd/MM HH:mm' }}</td>
+                  <td class="text-success fw-bold">{{ hist.sucessos }}</td>
+                  <td>
+                    <span *ngIf="hist.erros === 0" class="text-muted">-</span>
+                    <button *ngIf="hist.erros > 0" class="btn btn-danger rounded-pill btn-eye" 
+                            data-bs-toggle="modal" data-bs-target="#modalErros" (click)="abrirModalErros(hist.detalhesErro)">
+                      {{ hist.erros }} <i class="bi bi-eye"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="historicoPedidos.length === 0"><td colspan="3" class="text-muted py-3">Sem registros.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+      <div class="card history-card h-100">
+        <div class="card-header history-card-header border-warning">
+          <h6 class="mb-0 text-warning text-dark fw-bold"><i class="bi bi-lightning-charge me-2"></i>Estoque Rápido</h6>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-wrapper">
+            <table class="table table-hover table-sm align-middle text-center history-table">
+              <thead class="table-light sticky-top">
+                <tr><th>Hora</th><th>Ok</th><th>Erro</th></tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let hist of historicoIncremental">
+                  <td class="text-muted">{{ hist.dataHora | date:'dd/MM HH:mm' }}</td>
+                  <td class="text-success fw-bold">{{ hist.sucessos }}</td>
+                  <td>
+                    <span *ngIf="hist.erros === 0" class="text-muted">-</span>
+                    <button *ngIf="hist.erros > 0" class="btn btn-danger rounded-pill btn-eye" 
+                            data-bs-toggle="modal" data-bs-target="#modalErros" (click)="abrirModalErros(hist.detalhesErro)">
+                      {{ hist.erros }} <i class="bi bi-eye"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="historicoIncremental.length === 0"><td colspan="3" class="text-muted py-3">Sem registros.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+      <div class="card history-card h-100">
+        <div class="card-header history-card-header border-success">
+          <h6 class="mb-0 text-success fw-bold"><i class="bi bi-boxes me-2"></i>Carga Completa</h6>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-wrapper">
+            <table class="table table-hover table-sm align-middle text-center history-table">
+              <thead class="table-light sticky-top">
+                <tr><th>Hora</th><th>Ok</th><th>Erro</th></tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let hist of historicoCompleta">
+                  <td class="text-muted">{{ hist.dataHora | date:'dd/MM HH:mm' }}</td>
+                  <td class="text-success fw-bold">{{ hist.sucessos }}</td>
+                  <td>
+                    <span *ngIf="hist.erros === 0" class="text-muted">-</span>
+                    <button *ngIf="hist.erros > 0" class="btn btn-danger rounded-pill btn-eye" 
+                            data-bs-toggle="modal" data-bs-target="#modalErros" (click)="abrirModalErros(hist.detalhesErro)">
+                      {{ hist.erros }} <i class="bi bi-eye"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="historicoCompleta.length === 0"><td colspan="3" class="text-muted py-3">Sem registros.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalErros" tabindex="-1" aria-labelledby="modalErrosLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content modal-error-content">
+      <div class="modal-header bg-danger text-white modal-error-header">
+        <h5 class="modal-title" id="modalErrosLabel"><i class="bi bi-exclamation-triangle-fill me-2"></i>Detalhes das Falhas</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4 bg-light">
+        <p class="text-muted small mb-2">Abaixo está o registro técnico devolvido pela Omie:</p>
+        <div class="bg-white border rounded-3 p-3 shadow-sm error-log-box">
+          <pre class="error-log-text">{{ detalhesErroModal }}</pre>
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
   </div>
 </div>
