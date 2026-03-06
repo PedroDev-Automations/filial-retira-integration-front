@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IntegracaoService {
-  // A URL oficial da sua VPS!
-  private apiUrl = 'http://62.171.182.180:8080/api/integracao';
+  
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -34,5 +35,10 @@ export class IntegracaoService {
   // Estoque Rápido (Incremental)
   forcarSincronizacaoIncremental(): Observable<any> {
     return this.http.post(`${this.apiUrl}/estoque-incremental`, {}, { responseType: 'text' });
+  }
+
+  // BUSCA A TABELA DE HISTÓRICO
+  listarHistoricoExecucoes(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/historico`);
   }
 }

@@ -1,0 +1,123 @@
+/* Container fluido */
+.container {
+  padding-bottom: 1rem;
+}
+
+/* Títulos das seções super compactos */
+.section-title {
+  color: #6c757d; 
+  margin-top: 1.5rem;     
+  margin-bottom: 1rem; 
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* CARDS DE AÇÕES */
+.action-card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  height: 100%; /* Força os 3 cards a terem a exata mesma altura da linha */
+  display: flex;
+  flex-direction: column;
+}
+
+.action-card .card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto; /* Preenche todo o espaço interno disponível do card */
+}
+
+.action-icon {
+  font-size: 2rem; 
+  margin-bottom: 0.5rem;
+}
+
+.action-card h5 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.action-card p {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #6c757d;
+  margin-bottom: 1.2rem !important; 
+  flex-grow: 1; /* Empurra o botão firmemente para a base do card */
+}
+
+/* TABELAS DE HISTÓRICO */
+.history-card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.history-card-header {
+  background-color: #fff;
+  border-bottom-width: 3px !important;
+  padding: 0.75rem 1rem; 
+}
+
+/* Scroll inteligente */
+.table-wrapper {
+  max-height: 230px; 
+  overflow-y: auto;
+}
+
+/* Scrollbar Customizada (Estilo Premium) */
+.table-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f8f9fa; 
+  border-radius: 0 0 1rem 0;
+}
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #c1c1c1; 
+  border-radius: 10px;
+}
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8; 
+}
+
+.history-table {
+  font-size: 0.85rem; 
+  margin-bottom: 0;
+}
+
+.history-table td, .history-table th {
+  padding: 0.4rem 0.5rem; 
+  vertical-align: middle;
+}
+
+.btn-eye {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.4rem;
+}
+
+/* MODAL DE ERROS */
+.modal-error-content {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.modal-error-header {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.error-log-box {
+  max-height: 350px; 
+  overflow-y: auto;
+}
+
+.error-log-text {
+  white-space: pre-wrap;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: #d9534f;
+  margin-bottom: 0;
+}
