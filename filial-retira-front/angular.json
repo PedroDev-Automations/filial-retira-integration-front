@@ -25,13 +25,11 @@
                 "glob": "**/*",
                 "input": "public"
               },
-              "src/_redirects" 
+              "src/_redirects"
             ],
             "styles": ["bootstrap/dist/css/bootstrap.min.css", "src/styles.css"],
             "scripts": ["bootstrap/dist/js/bootstrap.bundle.min.js"],
-            "security": {
-              "allowedHosts": []
-            }
+            "prerender": false
           },
           "configurations": {
             "production": {
