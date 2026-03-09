@@ -1,0 +1,38 @@
+<div class="login-wrapper d-flex align-items-center justify-content-center">
+  <div class="card shadow-lg border-0 login-card animate__animated animate__fadeInUp">
+    <div class="card-body p-5">
+      <div class="text-center mb-4">
+        <i class="bi bi-rocket-takeoff text-primary" style="font-size: 3rem;"></i>
+        <h3 class="fw-bold mt-2">Filial Retira</h3>
+        <p class="text-muted small">Acesso Restrito ao Painel B2B</p>
+      </div>
+
+      <div class="alert alert-danger py-2 small text-center" *ngIf="erro">
+        <i class="bi bi-exclamation-circle me-1"></i> {{ erro }}
+      </div>
+
+      <form (ngSubmit)="entrar()">
+        <div class="mb-3">
+          <label class="form-label fw-semibold text-muted small">Usuário</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
+            <input type="text" class="form-control" name="login" [(ngModel)]="login" placeholder="admin" required>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label fw-semibold text-muted small">Senha</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-lock"></i></span>
+            <input type="password" class="form-control" name="senha" [(ngModel)]="senha" placeholder="••••••••" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 fw-bold py-2 shadow-sm" [disabled]="carregando">
+          <span *ngIf="!carregando">Entrar no Sistema</span>
+          <span *ngIf="carregando" class="spinner-border spinner-border-sm"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

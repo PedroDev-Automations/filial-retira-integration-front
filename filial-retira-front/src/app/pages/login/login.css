@@ -1,0 +1,19 @@
+.login-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 1rem;
+}
+.input-group-text {
+  border-right: 0;
+}
+.form-control {
+  border-left: 0;
+}
+.form-control:focus {
+  box-shadow: none;
+  border-color: #dee2e6;
+}

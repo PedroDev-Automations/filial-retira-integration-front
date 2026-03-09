@@ -1,15 +1,19 @@
-<div class="d-flex">
-  <app-sidebar></app-sidebar>
+<ng-container *ngIf="router.url !== '/login'">
+  <div class="d-flex">
+    <app-sidebar></app-sidebar>
 
-  <div class="w-100 d-flex flex-column min-vh-100 bg-light">
-    
-    <app-navbar></app-navbar>
+    <div class="w-100 d-flex flex-column min-vh-100 bg-light">
+      <app-navbar></app-navbar>
 
-    <main class="flex-grow-1 p-4">
-      <div class="container-fluid">
-        <router-outlet></router-outlet>
-      </div>
-    </main>
-
+      <main class="flex-grow-1 p-4">
+        <div class="container-fluid">
+          <router-outlet></router-outlet>
+        </div>
+      </main>
+    </div>
   </div>
-</div>
+</ng-container>
+
+<ng-container *ngIf="router.url === '/login'">
+  <router-outlet></router-outlet>
+</ng-container>
