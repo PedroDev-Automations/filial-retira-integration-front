@@ -29,10 +29,41 @@
               </div>
             </div>
 
+            <div class="mb-4 p-3 bg-white border border-secondary-subtle rounded">
+              <label class="form-label fw-bold text-primary">Identificação na Matriz</label>
+              <div class="form-text small mb-2">Digite o CNPJ desta filial para vincularmos ao cadastro da Matriz.</div>
+              
+              <div class="input-group mb-2">
+                <input type="text" class="form-control bg-light" placeholder="Ex: 23.169.497/0001-71" [(ngModel)]="cnpjBusca" name="cnpjBusca">
+                <button type="button" class="btn btn-outline-primary" (click)="buscarCnpjNaMatriz()" [disabled]="buscandoCnpj">
+                  <span *ngIf="buscandoCnpj" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                  🔍 Buscar
+                </button>
+              </div>
+
+              <div class="alert alert-success p-2 mb-0 d-flex align-items-center animate__animated animate__fadeIn" *ngIf="clienteEncontrado">
+                <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+                <div>
+                  <div class="fw-bold small">{{ clienteEncontrado.razao_social }}</div>
+                  <div class="text-success small">Vinculado com sucesso!</div>
+                </div>
+              </div>
+            </div>
+
             <div class="mb-4">
-              <label class="form-label fw-bold text-secondary">ID do Cliente na Matriz</label>
-              <input type="number" class="form-control bg-light" name="idClienteOmie" [(ngModel)]="novaFilial.idClienteOmie" required placeholder="Ex: 3792227">
-              <div class="form-text small">O código que representa esta filial dentro da Omie B2B.</div>
+              <label class="form-label fw-bold text-secondary d-block">Etapas de Leitura (Sincronizar Pedidos)</label>
+              <div class="form-text small mb-2">Marque em quais colunas do Kanban a automação deve procurar pedidos nesta filial.</div>
+              
+              <div class="bg-light p-3 rounded border">
+                <div class="form-check" *ngFor="let etapa of opcoesEtapas">
+                  <input class="form-check-input border-secondary" type="checkbox" [value]="etapa.valor" 
+                         [id]="'check_' + etapa.valor"
+                         (change)="toggleEtapa(etapa.valor, $event)">
+                  <label class="form-check-label text-dark" [for]="'check_' + etapa.valor">
+                    <span class="badge bg-secondary me-2">{{ etapa.valor }}</span> {{ etapa.descricao }}
+                  </label>
+                </div>
+              </div>
             </div>
 
             <button type="submit" class="btn btn-success btn-lg w-100 shadow-sm">
@@ -43,7 +74,7 @@
       </div>
     </div>
 
-    <div class="col-md-7">    etapaLeituraPedido: '',
+    <div class="col-md-7">
       <div class="card shadow-sm border-0 rounded-4">
         <div class="card-header bg-dark text-white rounded-top-4 p-3 d-flex justify-content-between align-items-center">
           <h5 class="mb-0"><i class="bi bi-list-ul"></i> Filiais em Operação</h5>
@@ -56,14 +87,29 @@
               <thead class="table-light">
                 <tr>
                   <th class="ps-4">Unidade</th>
-                  <th>ID Cliente (B2B)</th>
+                  <th>CNPJ (B2B)</th>
+                  <th>Etapas Lidas</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let filial of filiais">
                   <td class="ps-4 fw-bold text-primary">{{ filial.unidade }}</td>
-                  <td><code class="text-dark">{{ filial.idClienteOmie }}</code></td>
+                  <td>
+                    <code class="text-dark">
+                       {{ filial.cnpj || filial.idClienteOmie }}
+                    </code>
+                  </td>
+                  
+                  <td>
+                    <span *ngIf="!filial.etapasLeituraPedido || filial.etapasLeituraPedido.length === 0" class="text-muted small">
+                      <i class="bi bi-exclamation-triangle"></i> Nenhuma
+                    </span>
+                    <span *ngFor="let etp of filial.etapasLeituraPedido" class="badge bg-secondary me-1">
+                      {{ etp }}
+                    </span>
+                  </td>
+
                   <td>
                     <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill">
                       ● Ativa
