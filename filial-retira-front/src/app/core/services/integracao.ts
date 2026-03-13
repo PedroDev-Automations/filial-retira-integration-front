@@ -41,4 +41,25 @@ export class IntegracaoService {
   listarHistoricoExecucoes(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/historico`);
   }
+
+  // BUSCA DICIONARIOS
+  listarParcelas(): Observable<any[]> { 
+    return this.http.get<any[]>(`${this.apiUrl}/lookups/parcelas`);
+  }
+
+  listarCategorias(): Observable<any[]> {
+     return this.http.get<any[]>(`${this.apiUrl}/lookups/categorias`); 
+  }
+
+  listarContas(): Observable<any[]> {
+     return this.http.get<any[]>(`${this.apiUrl}/lookups/contas`); 
+  }
+
+  listarEtapas(): Observable<any[]> { 
+    return this.http.get<any[]>(`${this.apiUrl}/lookups/etapas`); 
+  }
+
+  buscarClienteOmie(cnpj: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/lookups/cliente?cnpj=${encodeURIComponent(cnpj)}`);
+  }
 }
