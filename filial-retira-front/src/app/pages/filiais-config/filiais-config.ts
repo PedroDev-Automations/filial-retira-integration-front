@@ -14,24 +14,71 @@ export class FiliaisConfigComponent implements OnInit {
   
   filiais: any[] = [];
   
-  
-
   novaFilial: any = {
     id: null,
     unidade: '',
     matriz: false,
     appKey: '',
     appSecret: '',
-    etapaLeituraPedido: '',
-    idClienteOmie: null
+    etapasLeituraPedido: [], 
+    idClienteOmie: null,
+    cnpj:''
   };
 
+  opcoesEtapas: any[] = [];
   mensagemSucesso = '';
+
+  cnpjBusca: string = '';
+  buscandoCnpj: boolean = false;
+  clienteEncontrado: any = null;
 
   constructor(private integracaoService: IntegracaoService) {}
 
   ngOnInit(): void {
     this.carregarFiliais();
+    this.integracaoService.listarEtapas().subscribe({
+        next: (res) => this.opcoesEtapas = res,
+        error: (err) => console.log('Matriz provavelmnete não configurada ainda', err)
+    });
+  }
+
+  buscarCnpjNaMatriz() {
+    if (!this.cnpjBusca) {
+      alert('Digite o CNPJ primeiro!');
+      return;
+    }
+
+    this.buscandoCnpj = true;
+    this.clienteEncontrado = null;
+
+    this.integracaoService.buscarClienteOmie(this.cnpjBusca).subscribe({
+      next: (resposta) => {
+        this.clienteEncontrado = resposta;
+        this.novaFilial.idClienteOmie = resposta.id; 
+        this.novaFilial.cnpj = resposta.cnpj;
+        this.buscandoCnpj = false;
+      },
+      error: (err) => {
+        alert('Cliente não encontrado na Matriz! Verifique se o CNPJ está correto.');
+        this.novaFilial.idClienteOmie = null;
+        this.novaFilial.cnpj = '';
+        this.buscandoCnpj = false;
+      }
+    });
+  }
+
+  toggleEtapa(valorDaEtapa: string, event: any) {
+    const isChecked = event.target.checked;
+    
+    if (!Array.isArray(this.novaFilial.etapasLeituraPedido)) {
+        this.novaFilial.etapasLeituraPedido = [];
+    }
+    
+    if (isChecked) {
+      this.novaFilial.etapasLeituraPedido.push(valorDaEtapa);
+    } else {
+      this.novaFilial.etapasLeituraPedido = this.novaFilial.etapasLeituraPedido.filter((e: string) => e !== valorDaEtapa);
+    }
   }
 
   carregarFiliais() {
@@ -49,7 +96,18 @@ export class FiliaisConfigComponent implements OnInit {
         this.mensagemSucesso = 'Filial cadastrada/atualizada com sucesso!';
         this.carregarFiliais(); 
         
-        this.novaFilial = { unidade: '', isMatriz: false, appKey: '', appSecret: '', etapaLeituraPedido: '', idClienteOmie: null };
+        this.novaFilial = { 
+            unidade: '', 
+            matriz: false, 
+            appKey: '', 
+            appSecret: '', 
+            etapasLeituraPedido: [],
+            idClienteOmie: null,
+            cnpj: ''
+        };
+        
+        const checkboxes = document.querySelectorAll('.form-check-input') as NodeListOf<HTMLInputElement>;
+        checkboxes.forEach(cb => cb.checked = false);
         
         setTimeout(() => this.mensagemSucesso = '', 5000);
       },
