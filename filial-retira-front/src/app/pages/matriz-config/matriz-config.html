@@ -25,27 +25,45 @@
           </div>
         </div>
 
-        <h5 class="text-primary border-bottom pb-2 mb-4 mt-5">⚙️ Parâmetros de Faturamento (B2B)</h5>
+<h5 class="text-primary border-bottom pb-2 mb-4 mt-5">⚙️ Parâmetros de Faturamento (B2B)</h5>
+        
+        <div class="alert alert-warning border-warning-subtle shadow-sm mb-4" *ngIf="opcoesEtapas.length === 0">
+          <i class="bi bi-info-circle-fill me-2"></i>
+          <strong>Primeiro acesso?</strong> Insira e salve suas credenciais de API acima primeiro. As opções abaixo serão carregadas automaticamente da sua conta Omie.
+        </div>
+
         <div class="row mb-4">
           <div class="col-md-6">
             <label class="form-label fw-bold text-secondary">Etapa do Kanban (Criação)</label>
-            <input type="text" class="form-control form-control-lg bg-light" name="etapaEscritaPedido" [(ngModel)]="configMatriz.etapaEscritaPedido" required placeholder="Ex: 10">
-            <div class="form-text">Código da coluna na Omie da Matriz onde o pedido espelho será gerado.</div>
+            <select class="form-select form-select-lg bg-light" name="etapaEscritaPedido" [(ngModel)]="configMatriz.etapaEscritaPedido" [disabled]="opcoesEtapas.length === 0" required>
+              <option value="" disabled selected>Selecione a etapa...</option>
+              <option *ngFor="let op of opcoesEtapas" [value]="op.valor">{{ op.valor }} - {{ op.descricao }}</option>
+            </select>
+            <div class="form-text">Em qual coluna o pedido espelho será gerado.</div>
           </div>
           <div class="col-md-6">
-            <label class="form-label fw-bold text-secondary">Código da Parcela Padrão</label>
-            <input type="text" class="form-control form-control-lg bg-light" name="codigoParcelaPadrao" [(ngModel)]="configMatriz.codigoParcelaPadrao" required placeholder="Ex: 999">
+            <label class="form-label fw-bold text-secondary">Condição de Pagamento (Parcela)</label>
+            <select class="form-select form-select-lg bg-light" name="codigoParcelaPadrao" [(ngModel)]="configMatriz.codigoParcelaPadrao" [disabled]="opcoesParcelas.length === 0" required>
+              <option value="" disabled selected>Selecione a parcela...</option>
+              <option *ngFor="let op of opcoesParcelas" [value]="op.valor">{{ op.descricao }}</option>
+            </select>
           </div>
         </div>
 
         <div class="row mb-5">
           <div class="col-md-6">
             <label class="form-label fw-bold text-secondary">Categoria de Transferência</label>
-            <input type="text" class="form-control form-control-lg bg-light" name="categoriaTransferenciaPadrao" [(ngModel)]="configMatriz.categoriaTransferenciaPadrao" required placeholder="Ex: 1.01.03">
+            <select class="form-select form-select-lg bg-light" name="categoriaTransferenciaPadrao" [(ngModel)]="configMatriz.categoriaTransferenciaPadrao" [disabled]="opcoesCategorias.length === 0" required>
+              <option value="" disabled selected>Selecione a categoria...</option>
+              <option *ngFor="let op of opcoesCategorias" [value]="op.valor">{{ op.descricao }}</option>
+            </select>
           </div>
           <div class="col-md-6">
-            <label class="form-label fw-bold text-secondary">Conta Corrente (ID Omie)</label>
-            <input type="number" class="form-control form-control-lg bg-light" name="contaCorrentePadrao" [(ngModel)]="configMatriz.contaCorrentePadrao" required placeholder="Ex: 11850365">
+            <label class="form-label fw-bold text-secondary">Conta Corrente</label>
+            <select class="form-select form-select-lg bg-light" name="contaCorrentePadrao" [(ngModel)]="configMatriz.contaCorrentePadrao" [disabled]="opcoesContas.length === 0" required>
+              <option value="null" disabled selected>Selecione a conta...</option>
+              <option *ngFor="let op of opcoesContas" [value]="op.valor">{{ op.descricao }}</option>
+            </select>
           </div>
         </div>
 

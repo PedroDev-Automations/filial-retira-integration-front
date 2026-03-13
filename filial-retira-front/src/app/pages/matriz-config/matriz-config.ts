@@ -25,6 +25,11 @@ export class MatrizConfigComponent implements OnInit {
     contaCorrentePadrao: null
   };
 
+  opcoesParcelas: any[] = [];
+  opcoesCategorias: any[] = [];
+  opcoesContas: any[] = [];
+  opcoesEtapas: any[] = [];
+
   mensagemSucesso = '';
 
   constructor(private integracaoService: IntegracaoService) {}
@@ -33,12 +38,23 @@ export class MatrizConfigComponent implements OnInit {
     this.carregarDados();
   }
 
+  carregarDicionarios() {
+    this.integracaoService.listarParcelas().subscribe(res => this.opcoesParcelas = res);
+    this.integracaoService.listarCategorias().subscribe(res => this.opcoesCategorias = res);
+    this.integracaoService.listarContas().subscribe(res => this.opcoesContas = res);
+    this.integracaoService.listarEtapas().subscribe(res => this.opcoesEtapas = res);
+  }
+
   carregarDados() {
     this.integracaoService.listarConfiguracoes().subscribe({
       next: (configs) => {
         const matriz = configs.find(c => c.matriz === true);
         if (matriz) {
           this.configMatriz = matriz;
+          
+          if (this.configMatriz.appKey) {
+            this.carregarDicionarios();
+          }
         }
       },
       error: (err) => console.error('Erro ao carregar dados:', err)
@@ -49,6 +65,11 @@ export class MatrizConfigComponent implements OnInit {
     this.integracaoService.salvarConfiguracao(this.configMatriz).subscribe({
       next: (resposta) => {
         this.mensagemSucesso = resposta;
+
+        if (this.configMatriz.appKey && this.configMatriz.appSecret) {
+          this.carregarDicionarios();
+        }
+
         setTimeout(() => this.mensagemSucesso = '', 5000);
       },
       error: (err) => alert('Erro ao salvar as configurações!')
