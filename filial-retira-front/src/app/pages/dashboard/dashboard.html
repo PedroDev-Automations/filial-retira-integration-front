@@ -80,7 +80,13 @@
               <tbody>
                 <tr *ngFor="let hist of historicoPedidos">
                   <td class="text-muted">{{ hist.dataHora | date:'dd/MM HH:mm' }}</td>
-                  <td class="text-success fw-bold">{{ hist.sucessos }}</td>
+                  <td>
+                    <span *ngIf="hist.sucessos === 0" class="text-muted fw-bold">0</span>
+                    <button *ngIf="hist.sucessos > 0" class="btn btn-success rounded-pill btn-eye btn-sm text-white px-2 py-0 shadow-sm" 
+                            data-bs-toggle="modal" data-bs-target="#modalSucessos" (click)="abrirModalSucessos(hist.detalhesSucesso)">
+                      {{ hist.sucessos }} <i class="bi bi-eye"></i>
+                    </button>
+                  </td>
                   <td>
                     <span *ngIf="hist.erros === 0" class="text-muted">-</span>
                     <button *ngIf="hist.erros > 0" class="btn btn-danger rounded-pill btn-eye" 
@@ -111,7 +117,13 @@
               <tbody>
                 <tr *ngFor="let hist of historicoIncremental">
                   <td class="text-muted">{{ hist.dataHora | date:'dd/MM HH:mm' }}</td>
-                  <td class="text-success fw-bold">{{ hist.sucessos }}</td>
+                  <td>
+                    <span *ngIf="hist.sucessos === 0" class="text-muted fw-bold">0</span>
+                    <button *ngIf="hist.sucessos > 0" class="btn btn-success rounded-pill btn-eye btn-sm text-white px-2 py-0 shadow-sm" 
+                            data-bs-toggle="modal" data-bs-target="#modalSucessos" (click)="abrirModalSucessos(hist.detalhesSucesso)">
+                      {{ hist.sucessos }} <i class="bi bi-eye"></i>
+                    </button>
+                  </td>
                   <td>
                     <span *ngIf="hist.erros === 0" class="text-muted">-</span>
                     <button *ngIf="hist.erros > 0" class="btn btn-danger rounded-pill btn-eye" 
@@ -142,7 +154,13 @@
               <tbody>
                 <tr *ngFor="let hist of historicoCompleta">
                   <td class="text-muted">{{ hist.dataHora | date:'dd/MM HH:mm' }}</td>
-                  <td class="text-success fw-bold">{{ hist.sucessos }}</td>
+                  <td>
+                    <span *ngIf="hist.sucessos === 0" class="text-muted fw-bold">0</span>
+                    <button *ngIf="hist.sucessos > 0" class="btn btn-success rounded-pill btn-eye btn-sm text-white px-2 py-0 shadow-sm" 
+                            data-bs-toggle="modal" data-bs-target="#modalSucessos" (click)="abrirModalSucessos(hist.detalhesSucesso)">
+                      {{ hist.sucessos }} <i class="bi bi-eye"></i>
+                    </button>
+                  </td>
                   <td>
                     <span *ngIf="hist.erros === 0" class="text-muted">-</span>
                     <button *ngIf="hist.erros > 0" class="btn btn-danger rounded-pill btn-eye" 
@@ -170,12 +188,32 @@
       </div>
       <div class="modal-body p-4 bg-light">
         <p class="text-muted small mb-2">Abaixo está o registro técnico devolvido pela Omie:</p>
-        <div class="bg-white border rounded-3 p-3 shadow-sm error-log-box">
-          <pre class="error-log-text">{{ detalhesErroModal }}</pre>
+        <div class="bg-white border rounded-3 p-3 shadow-sm error-log-box" style="max-height: 400px; overflow-y: auto;">
+          <pre class="error-log-text m-0" style="white-space: pre-wrap;">{{ detalhesErroModal }}</pre>
         </div>
       </div>
       <div class="modal-footer border-0">
         <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalSucessos" tabindex="-1" aria-labelledby="modalSucessosLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content modal-success-content border-0 shadow">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="modalSucessosLabel"><i class="bi bi-check-circle-fill me-2"></i>Registros de Sucesso</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4 bg-light">
+        <p class="text-muted small mb-2">Detalhes dos itens processados com êxito:</p>
+        <div class="bg-white border border-success-subtle rounded-3 p-3 shadow-sm" style="max-height: 400px; overflow-y: auto;">
+          <pre class="m-0 text-success fw-semibold" style="font-family: monospace; font-size: 0.9rem; white-space: pre-wrap;">{{ detalhesSucessoModal }}</pre>
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary rounded-pill px-4 shadow-sm" data-bs-dismiss="modal">Fechar</button>
       </div>
     </div>
   </div>

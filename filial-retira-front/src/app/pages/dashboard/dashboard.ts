@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   historicoCompleta: any[] = [];
   inscricaoTimer!: Subscription;
   detalhesErroModal: string = '';
+  detalhesSucessoModal: string = '';
 
   constructor(
     private integracaoService: IntegracaoService,
@@ -60,6 +61,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   abrirModalErros(detalhes: string) {
     this.detalhesErroModal = detalhes;
+  }
+
+  abrirModalSucessos(detalhes: string) {
+    this.detalhesSucessoModal = detalhes || 'Nenhum registro encontrado.';
   }
 
   varrerPedidos() {
