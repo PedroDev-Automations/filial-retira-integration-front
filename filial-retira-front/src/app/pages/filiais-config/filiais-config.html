@@ -7,15 +7,19 @@
   <div class="row">
     <div class="col-md-5 mb-4">
       <div class="card shadow-sm border-0 rounded-4">
-        <div class="card-header bg-success text-white rounded-top-4 p-3">
-          <h5 class="mb-0"><i class="bi bi-shop"></i> Cadastrar Nova Filial</h5>
+        <div class="card-header rounded-top-4 p-3 text-white" [ngClass]="editando ? 'bg-primary' : 'bg-success'">
+          <h5 class="mb-0">
+            <i class="bi" [ngClass]="editando ? 'bi-pencil-square' : 'bi-shop'"></i> 
+            {{ editando ? 'Editar Filial' : 'Cadastrar Nova Filial' }}
+          </h5>
         </div>
         <div class="card-body p-4">
           <form (ngSubmit)="salvarFilial()">
             
             <div class="mb-3">
               <label class="form-label fw-bold text-secondary">Nome da Unidade</label>
-              <input type="text" class="form-control bg-light" name="unidade" [(ngModel)]="novaFilial.unidade" required placeholder="Ex: REALLIDI">
+              <input type="text" class="form-control bg-light" name="unidade" [(ngModel)]="novaFilial.unidade" required placeholder="Ex: REALLIDI" [readonly]="editando">
+              <div *ngIf="editando" class="form-text text-warning small">O nome da unidade não pode ser alterado durante a edição.</div>
             </div>
             
             <div class="row mb-3">
@@ -66,9 +70,17 @@
               </div>
             </div>
 
-            <button type="submit" class="btn btn-success btn-lg w-100 shadow-sm">
-              ➕ Cadastrar e Ativar Filial
-            </button>
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-lg shadow-sm text-white" [ngClass]="editando ? 'btn-primary' : 'btn-success'">
+                <i class="bi" [ngClass]="editando ? 'bi-save' : 'bi-plus-lg'"></i> 
+                {{ editando ? 'Salvar Alterações' : 'Cadastrar e Ativar Filial' }}
+              </button>
+              
+              <button *ngIf="editando" type="button" class="btn btn-outline-secondary mt-2" (click)="cancelarEdicao()">
+                Cancelar Edição
+              </button>
+            </div>
+            
           </form>
         </div>
       </div>
@@ -90,7 +102,7 @@
                   <th>CNPJ (B2B)</th>
                   <th>Etapas Lidas</th>
                   <th>Status</th>
-                </tr>
+                  <th class="text-end pe-4">Ações</th> </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let filial of filiais">
@@ -115,10 +127,19 @@
                       ● Ativa
                     </span>
                   </td>
+
+                  <td class="text-end pe-4">
+                    <button class="btn btn-sm btn-outline-primary me-2" (click)="editarFilial(filial)" title="Editar">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="excluirFilial(filial.unidade)" title="Excluir">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
                 </tr>
                 
                 <tr *ngIf="filiais.length === 0">
-                  <td colspan="4" class="text-center text-muted p-5">
+                  <td colspan="5" class="text-center text-muted p-5">
                     <i class="bi bi-inbox fs-2 d-block mb-2"></i>
                     Nenhuma filial cadastrada.<br>Use o formulário ao lado para começar.
                   </td>

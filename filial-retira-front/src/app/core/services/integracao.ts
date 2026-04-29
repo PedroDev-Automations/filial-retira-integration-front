@@ -62,4 +62,8 @@ export class IntegracaoService {
   buscarClienteOmie(cnpj: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/lookups/cliente?cnpj=${encodeURIComponent(cnpj)}`);
   }
+
+  excluirConfiguracao(unidade: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/configuracao/${encodeURIComponent(unidade)}`, { responseType: 'text' });
+  }
 }
