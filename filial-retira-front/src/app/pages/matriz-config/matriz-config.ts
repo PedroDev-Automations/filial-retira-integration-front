@@ -19,6 +19,8 @@ export class MatrizConfigComponent implements OnInit {
     matriz: true,
     appKey: '',
     appSecret: '',
+    identificadorInstalacao: 'realli',
+    prefixosIgnorados: 'FR,RD',
     etapaEscritaPedido: '',
     codigoParcelaPadrao: '',
     categoriaTransferenciaPadrao: '',

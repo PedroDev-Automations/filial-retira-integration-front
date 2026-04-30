@@ -25,7 +25,25 @@
           </div>
         </div>
 
-<h5 class="text-primary border-bottom pb-2 mb-4 mt-5">⚙️ Parâmetros de Faturamento (B2B)</h5>
+        <div class="mb-4 p-4 bg-light border border-primary-subtle rounded-4">
+          <h6 class="fw-bold text-primary mb-3"><i class="bi bi-cpu"></i> Controle do Ecossistema (Avançado)</h6>
+          
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-bold text-secondary">Identificador da Instalação</label>
+              <div class="form-text small mb-2 text-muted">Nome único desta API para evitar conflito com outros robôs.</div>
+              <input type="text" class="form-control" name="identificadorInstalacao" [(ngModel)]="configMatriz.identificadorInstalacao" placeholder="Ex: padrao">
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-bold text-secondary">Prefixos Ignorados</label>
+              <div class="form-text small mb-2 text-muted">A automação ignorará integrações com estes prefixos (Separe por vírgula).</div>
+              <input type="text" class="form-control" name="prefixosIgnorados" [(ngModel)]="configMatriz.prefixosIgnorados" placeholder="Ex: FR,RD,SHP">
+            </div>
+          </div>
+        </div>
+
+        <h5 class="text-primary border-bottom pb-2 mb-4 mt-5">⚙️ Parâmetros de Faturamento (B2B)</h5>
         
         <div class="alert alert-warning border-warning-subtle shadow-sm mb-4" *ngIf="opcoesEtapas.length === 0">
           <i class="bi bi-info-circle-fill me-2"></i>
